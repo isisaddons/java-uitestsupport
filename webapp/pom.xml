@@ -187,6 +187,7 @@ language governing permissions and limitations under the License.
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>java-uitestsupport-lib</artifactId>
+            <scope>test</scope>
         </dependency>
         
         <!-- other isis components -->

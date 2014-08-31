@@ -23,7 +23,7 @@ language governing permissions and limitations under the License.
 
     <packaging>jar</packaging>
 
-    <name>Isis Addons Java UITestSupport Library</name>
+    <name>Isis Addons Java UITest Support Library</name>
     <description>
         A library to support the UI testing of Java webapps.
     </description>
@@ -60,6 +60,8 @@ language governing permissions and limitations under the License.
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <junit.version>4.11</junit.version>
+        <geb-core.version>0.9.2</geb-core.version>
+        <selenium-support.version>2.41.0</selenium-support.version>
     </properties>
 
     <build>
@@ -187,6 +189,20 @@ language governing permissions and limitations under the License.
             <version>${junit.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.gebish</groupId>
+            <artifactId>geb-core</artifactId>
+            <version>${geb-core.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+            <version>${selenium-support.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <!-- http://central.sonatype.org/pages/apache-maven.html -->

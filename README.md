@@ -30,7 +30,11 @@ This library ...
 
 #### Dependencies ####
 
-No third party dependencies.
+This library depends on:
+
+* `junit:junit`
+* `org.gebish:geb-core`
+* `org.seleniumhq.selenium:selenium-support`
 
 
 ##  Maven deploy notes ##

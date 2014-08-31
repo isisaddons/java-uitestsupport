@@ -33,7 +33,7 @@ language governing permissions and limitations under the License.
         <isis.version>1.6.0</isis.version>
         <isis-viewer-wicket.version>1.6.0</isis-viewer-wicket.version>
 
-        <java-uitestsupport.version>1.6.0</java-uitestsupport.version>
+        <java-uitestsupport.version>1.6.0-SNAPSHOT</java-uitestsupport.version>
 
         <!-- must be consistent with the versions defined by the JDO Objectstore -->
         <datanucleus-accessplatform-jdo-rdbms.version>3.3.6</datanucleus-accessplatform-jdo-rdbms.version>
