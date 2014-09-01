@@ -21,24 +21,27 @@ class ScreenshotRuleTest extends GebReportingTest  {
     public void whenScreenshotMatches() throws Exception {
 
         // given
-        File actualScreenshotForLoginPage = screenshotFile("whenScreenshotMatches-loginPage.actual.png")
+        // ... no actual screenshots are left over from previous run
+        File actualScreenshotForLoginPage = screenshotFileFor("whenScreenshotMatches-loginPage.actual.png")
         deleteIfExists(actualScreenshotForLoginPage)
-        File actualScreenshotForHomePage = screenshotFile("whenScreenshotMatches-loginPage.actual.png")
+        File actualScreenshotForHomePage = screenshotFileFor("whenScreenshotMatches-homePage.actual.png")
         deleteIfExists(actualScreenshotForHomePage)
 
         // when
         to LoginPage
+        screenshotRule.assertMatches(browser, "loginPage");
 
         // then
-        screenshotRule.assertMatches(browser, "loginPage");
-        assert actualScreenshotForLoginPage.exists()
+        // ... does NOT write out actual, since matches expected.
+        assert !actualScreenshotForLoginPage.exists()
 
         // and when
         login "sven", "pass"
+        screenshotRule.assertMatches(browser, "homePage");
 
         // then
-        screenshotRule.assertMatches(browser, "homePage");
-        assert actualScreenshotForHomePage.exists()
+        // ... does NOT write out actual, since matches expected.
+        assert !actualScreenshotForHomePage.exists()
     }
 
     @Test
@@ -47,13 +50,16 @@ class ScreenshotRuleTest extends GebReportingTest  {
         expectedException.handleAssertionErrors();
 
         // given
-        File expectedScreenshot = screenshotFile("whenScreenshotDoesNotMatch-loginPage.expected.png")
-        assert !expectedScreenshot.exists()
+        // ... have an expected screenshot
+        File expectedScreenshot = screenshotFileFor("whenScreenshotDoesNotMatch-loginPage.expected.png")
+        assert expectedScreenshot.exists()
 
-        File actualScreenshot = screenshotFile("whenScreenshotDoesNotMatch-loginPage.actual.png")
+        // ... that no actual screenshots are left over from previous run
+        File actualScreenshot = screenshotFileFor("whenScreenshotDoesNotMatch-loginPage.actual.png")
         deleteIfExists(actualScreenshot)
 
         // then
+        // ... the test should fail
         expectedException.expectMessage(containsString("Screenshot differs: expected"))
         expectedException.expectMessage(containsString("p4merge"))
 
@@ -61,40 +67,43 @@ class ScreenshotRuleTest extends GebReportingTest  {
         to LoginPage
         screenshotRule.assertMatches(browser, "loginPage");
 
-        // then
-        screenshotRule.assertMatches(browser, "homePage");
+        // then ... an actual screenshot is written out (referenced in the assertion)
         assert actualScreenshot.exists()
     }
 
     @Test
-    public void whenScreenshotDoesNotExist() throws Exception {
+    public void whenExpectedScreenshotDoesNotExist() throws Exception {
 
         expectedException.handleAssertionErrors();
 
         // given
-        File actualScreenshot = screenshotFile("whenScreenshotDoesNotExist-loginPage.actual.png")
+        // ... there is NO expected screenshot
+        File expectedScreenshot = screenshotFileFor("whenExpectedScreenshotDoesNotExist-loginPage.expected.png")
+        assert !expectedScreenshot.exists()
+        // ... no actual screenshots left over from previous run
+        File actualScreenshot = screenshotFileFor("whenExpectedScreenshotDoesNotExist-loginPage.actual.png")
         deleteIfExists(actualScreenshot)
 
         // then
+        // ... the test should fail
         expectedException.expectMessage(containsString("No expected screenshot; written out actual"))
         expectedException.expectMessage(containsString("PaintDotNet"))
 
-        // and when
+        // when
         to LoginPage
         screenshotRule.assertMatches(browser, "loginPage");
 
-        // then
+        // and then
+        // ... an actual screenshot is written out (referenced in the assertion)
         assert actualScreenshot.exists()
     }
 
-    private static File screenshotFile(String fileName) {
+    private static File screenshotFileFor(String fileName) {
         final File projectDir = new File(".");
         final File resourcesDir = new File(projectDir, "src/test/resources");
 
-        final File actualScreenshotExpectedToBeWrittenOut =
-                new File(resourcesDir, "org/isisaddons/wicket/excel/webapp/ScreenshotRuleTest_" +
-                        fileName)
-        actualScreenshotExpectedToBeWrittenOut
+        return new File(resourcesDir, "org/isisaddons/wicket/excel/webapp/ScreenshotRuleTest_" +
+                        fileName).getCanonicalFile().getAbsoluteFile()
     }
 
     private static void deleteIfExists(File file) {

@@ -63,8 +63,8 @@ public class ScreenshotRule implements MethodRule{
         final byte[] actualScreenshot = Screenshots.screenshot(browser);
         assertThat("unable to take screenshot", actualScreenshot, is(not(nullValue())));
 
-        final File expectedFile = getContext().buildFile(resourcesDir, suffix + ".expected.png");
-        final File actualFile = getContext().buildFile(resourcesDir, suffix + ".actual.png");
+        final File expectedFile = getContext().buildFile(resourcesDir, suffix + ".expected.png").getAbsoluteFile();
+        final File actualFile = getContext().buildFile(resourcesDir, suffix + ".actual.png").getAbsoluteFile();
         final byte[] expectedScreenshot = FileHandling.readBytes(expectedFile);
 
         if(expectedScreenshot == null) {
