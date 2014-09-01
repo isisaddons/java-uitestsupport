@@ -1,12 +1,11 @@
 package org.isisaddons.wicket.excel.webapp
 import geb.junit4.GebReportingTest
+import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 
 import java.nio.file.Files
-
-import static org.hamcrest.CoreMatchers.containsString
 
 class ScreenshotRuleTest extends GebReportingTest  {
 
@@ -24,8 +23,6 @@ class ScreenshotRuleTest extends GebReportingTest  {
         // ... no actual screenshots are left over from previous run
         File actualScreenshotForLoginPage = screenshotFileFor("whenScreenshotMatches-loginPage.actual.png")
         deleteIfExists(actualScreenshotForLoginPage)
-        File actualScreenshotForHomePage = screenshotFileFor("whenScreenshotMatches-homePage.actual.png")
-        deleteIfExists(actualScreenshotForHomePage)
 
         // when
         to LoginPage
@@ -35,13 +32,6 @@ class ScreenshotRuleTest extends GebReportingTest  {
         // ... does NOT write out actual, since matches expected.
         assert !actualScreenshotForLoginPage.exists()
 
-        // and when
-        login "sven", "pass"
-        screenshotRule.assertMatches(browser, "homePage");
-
-        // then
-        // ... does NOT write out actual, since matches expected.
-        assert !actualScreenshotForHomePage.exists()
     }
 
     @Test
@@ -60,8 +50,8 @@ class ScreenshotRuleTest extends GebReportingTest  {
 
         // then
         // ... the test should fail
-        expectedException.expectMessage(containsString("Screenshot differs: expected"))
-        expectedException.expectMessage(containsString("p4merge"))
+        expectedException.expectMessage(Matchers.containsString("Screenshot differs: expected"))
+        expectedException.expectMessage(Matchers.containsString("p4merge"))
 
         // when
         to LoginPage
@@ -86,8 +76,8 @@ class ScreenshotRuleTest extends GebReportingTest  {
 
         // then
         // ... the test should fail
-        expectedException.expectMessage(containsString("No expected screenshot; written out actual"))
-        expectedException.expectMessage(containsString("PaintDotNet"))
+        expectedException.expectMessage(Matchers.containsString("No expected screenshot; written out actual"))
+        expectedException.expectMessage(Matchers.containsString("PaintDotNet"))
 
         // when
         to LoginPage
